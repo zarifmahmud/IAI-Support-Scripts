@@ -1,7 +1,7 @@
 """
 Script for importing students by course in Canvas.
 """
-from keys import canvas_key
+from security import canvas_key
 import csv
 import requests
 
@@ -47,4 +47,3 @@ def course_students_csv(course_id: int, file_name: str):
     """
     student_list = course_students(course_id)
     student_list_to_csv(student_list, file_name)
-
