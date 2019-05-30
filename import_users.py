@@ -4,6 +4,9 @@ Script for importing students by course in Canvas.
 from security import canvas_key
 import csv
 import requests
+from datetime import datetime
+
+
 
 
 def course_students(course_id: int):
@@ -28,9 +31,13 @@ def student_list_to_csv(student_list, file_name: str):
     Takes in list of students as input, and writes to a CSV file with given name.
     (If the file doesn't exist, it creates it). CSV file contains info on students.
     """
-    file = file_name + '.csv'
+    mydate = datetime.now()
+    formatteddate = mydate.strftime("%b%d%Y")
+    dated_file = file_name + "_" + formatteddate
+    file = dated_file + '.csv'
     with open(file, mode='w') as student_file:
         student_writer = csv.writer(student_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        student_writer.writerow(["Full Name", "First Name", "Last Name", "Quercus ID"])
         for student in student_list:
             student_name = student["sortable_name"]
             split_name = student_name.split(", ")
@@ -47,3 +54,5 @@ def course_students_csv(course_id: int, file_name: str):
     """
     student_list = course_students(course_id)
     student_list_to_csv(student_list, file_name)
+
+course_students_csv(69069, "csc258test")
